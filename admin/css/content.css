@@ -1,0 +1,3 @@
+/* Style riêng trang Quản lý danh mục (content) */
+.tree-row{transition:background .15s}
+.icon-pick.selected{outline:2px solid var(--admin-accent);outline-offset:2px;background:var(--admin-accent-soft)}

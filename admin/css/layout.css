@@ -1,0 +1,7 @@
+/* Quy ước bố cục khung admin — tham chiếu với class Tailwind đang dùng */
+:root{
+  --topnav-h:5rem; /* tương ứng h-20 của thanh điều hướng ngang trên đầu */
+  --z-header:30;
+  --z-modal:50;
+  --z-toast:60;
+}

@@ -1,0 +1,7 @@
+/* Biến màu dùng cho các component tự viết của admin */
+:root{
+  --admin-green:#3B6E4C;
+  --admin-track:#c3c8c3;
+  --admin-accent:#9a4526;
+  --admin-accent-soft:#ffdbcf;
+}

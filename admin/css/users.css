@@ -1,0 +1,6 @@
+/* Style riêng trang Quản lý tài khoản (users) */
+.chip input{position:absolute;opacity:0}
+.chip span{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;background:#f5f4ef;font-weight:600;font-size:14px;line-height:20px;color:#434844;cursor:pointer;border:1px solid transparent;transition:all .15s}
+.chip input:checked+span{background:#15251d;color:#faf9f4;border-color:#15251d}
+.chip span:hover{background:#e9e8e3}
+.chip input:checked+span:hover{background:#2a3b32}

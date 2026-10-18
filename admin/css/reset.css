@@ -1,0 +1,3 @@
+/* Reset cơ bản cho admin — Tailwind (tailwind.css) đã có preflight, đây là phần bổ sung */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}

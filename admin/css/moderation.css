@@ -1,0 +1,2 @@
+/* Style riêng trang Kiểm duyệt (moderation) */
+mark.flag{background:var(--admin-accent-soft);color:#74290b;border-radius:3px;padding:0 2px;font-weight:600}

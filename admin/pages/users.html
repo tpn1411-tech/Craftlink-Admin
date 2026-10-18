@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<title>Quản lý Tài khoản & Phân quyền | Craft Link Admin</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="../../assets/css/tailwind.css" rel="stylesheet"/>
+<link href="../../assets/css/colors.css" rel="stylesheet"/>
+<link href="../../assets/css/base.css" rel="stylesheet"/>
+<link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg"/>
+<link href="../css/reset.css" rel="stylesheet"/>
+<link href="../css/variables.css" rel="stylesheet"/>
+<link href="../css/layout.css" rel="stylesheet"/>
+<link href="../css/components.css" rel="stylesheet"/>
+<link href="../css/users.css" rel="stylesheet"/>
+<link href="../css/responsive.css" rel="stylesheet"/>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased">
+
+<!-- ============ MAIN ============ -->
+<div class="min-h-screen flex flex-col">
+  <header class="sticky top-0 z-30 bg-surface/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+  <div class="h-20 px-gutter-lg border-b border-surface-container-high flex items-center justify-between gap-space-lg">
+    <a href="../index.html" class="flex items-center gap-space-md shrink-0">
+      <img alt="Craft Link Heritage Logo" class="h-10 w-auto object-contain" src="../assets/images/logo.jpg"/>
+      <div class="flex flex-col">
+        <span class="font-headline-sm text-headline-sm text-primary font-semibold tracking-wide">CRAFT LINK</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Bảng quản trị</span>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-gutter shrink-0" aria-label="Điều hướng quản trị">
+      <a href="dashboard.html" class="flex items-center gap-1.5 font-headline-sm text-headline-sm py-space-sm transition-colors text-on-surface-variant hover:text-on-surface border-b-2 border-transparent">
+        <span class="material-symbols-outlined text-[20px]">dashboard</span>Tổng quan
+      </a>
+      <a href="content.html" class="flex items-center gap-1.5 font-headline-sm text-headline-sm py-space-sm transition-colors text-on-surface-variant hover:text-on-surface border-b-2 border-transparent">
+        <span class="material-symbols-outlined text-[20px]">category</span>Danh mục
+      </a>
+      <a href="users.html" class="flex items-center gap-1.5 font-headline-sm text-headline-sm py-space-sm transition-colors text-secondary font-semibold border-b-2 border-secondary" aria-current="page">
+        <span class="material-symbols-outlined text-[20px]">group</span>Tài khoản
+      </a>
+      <a href="moderation.html" class="flex items-center gap-1.5 font-headline-sm text-headline-sm py-space-sm transition-colors text-on-surface-variant hover:text-on-surface border-b-2 border-transparent">
+        <span class="material-symbols-outlined text-[20px]">gavel</span>Kiểm duyệt
+      </a>
+    </nav>
+    <div class="flex items-center gap-space-sm shrink-0">
+      <a href="../../index.html" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Về trang chủ"><span class="material-symbols-outlined text-[22px]">storefront</span></a>
+      <a href="../../pages/product.html" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Xem Marketplace"><span class="material-symbols-outlined text-[22px]">shopping_bag</span></a>
+      <div class="relative">
+                <button type="button" onclick="toggleNotif(event)" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" aria-label="Thông báo">
+                  <span class="material-symbols-outlined text-[22px]">notifications</span>
+                  <span id="notifBadge" class="absolute top-1 right-1 w-4 h-4 rounded-full bg-secondary text-on-secondary font-label-sm text-[10px] flex items-center justify-center leading-none font-bold">3</span>
+                </button>
+                <div id="notifPanel" class="hidden absolute right-0 mt-2 w-80 bg-surface-container-lowest rounded-xl shadow-lg border border-surface-container-high overflow-hidden fade-in">
+                  <div class="px-4 py-3 border-b border-surface-container-high flex items-center justify-between gap-2">
+                    <span class="font-title-md text-title-md text-primary font-semibold">Thông báo hệ thống</span>
+                    <button type="button" onclick="markAllRead()" class="font-label-sm text-label-sm text-secondary font-semibold hover:underline shrink-0">Đánh dấu đã đọc</button>
+                  </div>
+                  <div id="notifList" class="max-h-80 overflow-y-auto"></div>
+                </div>
+              </div>
+      <div class="flex items-center gap-2 pl-space-sm ml-1 border-l border-surface-container-high">
+        <div class="w-9 h-9 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-title-lg text-title-lg">N</div>
+        <div class="hidden xl:flex flex-col leading-tight">
+          <span class="font-title-md text-title-md text-primary">Admin Nam</span>
+          <span class="font-label-sm text-label-sm text-on-surface-variant">Super Admin</span>
+        </div>
+        <button type="button" onclick="logoutDemo()" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Đăng xuất"><span class="material-symbols-outlined text-[20px]">logout</span></button>
+      </div>
+    </div>
+  </div>
+
+    <div class="px-gutter-lg pt-3 flex items-center justify-between gap-space-lg">
+      <nav class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant min-w-0" aria-label="Breadcrumb">
+        <a href="dashboard.html" class="hover:text-primary transition-colors shrink-0">Bảng quản trị</a>
+        <span class="material-symbols-outlined text-[14px] shrink-0">chevron_right</span>
+        <span class="text-primary font-semibold truncate">Tài khoản & Phân quyền</span>
+      </nav>
+      <div class="flex items-center gap-space-sm shrink-0">
+        
+      </div>
+    </div>
+    <div class="px-gutter-lg pt-1 pb-3 flex items-center justify-between gap-space-lg">
+      <div class="flex items-center gap-space-md min-w-0">
+        <span class="material-symbols-outlined text-[24px] text-secondary">group</span>
+        <div class="min-w-0">
+          <h1 class="font-headline-md text-headline-md text-primary truncate">Quản lý Tài khoản & Phân quyền</h1>
+          <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Khách hàng · Người sáng tạo · Kiểm duyệt viên · Admin</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-md shrink-0">
+        <button class="h-10 px-4 rounded-lg bg-surface-container-high text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-colors flex items-center gap-1.5" type="button" onclick="openCreateModal()">
+          <span class="material-symbols-outlined text-[18px]">person_add</span>Tạo tài khoản nội bộ
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 w-full px-gutter-lg py-gutter max-w-[1400px] mx-auto space-y-gutter">
+
+    <!-- Stats -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-gutter" id="statCards"></section>
+
+    <!-- Filters -->
+    <section class="bg-surface-container-lowest rounded-xl shadow-xs p-space-md flex flex-col xl:flex-row xl:items-center gap-space-md">
+      <div class="relative flex-1 min-w-[220px]">
+        <input id="searchInput" class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Tìm theo tên, email, số điện thoại..." type="text"/>
+        <span class="material-symbols-outlined absolute left-2.5 top-2.5 text-[20px] text-outline">search</span>
+      </div>
+      <select id="roleFilter" class="h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+        <option value="all">Tất cả vai trò</option>
+        <option value="customer">Khách hàng</option>
+        <option value="maker">Người sáng tạo (Maker)</option>
+        <option value="moderator">Kiểm duyệt viên</option>
+        <option value="admin">Admin</option>
+      </select>
+      <select id="statusFilter" class="h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+        <option value="all">Tất cả trạng thái</option>
+        <option value="active">Đang hoạt động</option>
+        <option value="banned">Bị khóa / Đình chỉ</option>
+        <option value="pending">Chờ xác minh</option>
+      </select>
+      <label class="flex items-center gap-2 font-body-sm text-body-sm text-on-surface cursor-pointer select-none">
+        <input id="verifiedOnly" type="checkbox" class="accent-[#9a4526]"/>Chỉ Maker có tích xanh
+      </label>
+    </section>
+
+    <!-- Users table -->
+    <section class="bg-surface-container-lowest rounded-xl shadow-xs overflow-hidden">
+      <div class="px-gutter py-space-md border-b border-surface-container-high flex items-center justify-between">
+        <h2 class="font-title-lg text-title-lg text-primary font-semibold">Danh sách tài khoản</h2>
+        <span class="font-body-sm text-body-sm text-on-surface-variant" id="tableSummary"></span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left min-w-[980px]">
+          <thead>
+            <tr class="bg-surface-container-low font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">
+              <th class="px-gutter py-3 font-semibold">Người dùng</th>
+              <th class="px-4 py-3 font-semibold">Vai trò</th>
+              <th class="px-4 py-3 font-semibold">Trạng thái</th>
+              <th class="px-4 py-3 font-semibold text-center">Vi phạm</th>
+              <th class="px-4 py-3 font-semibold">Đăng ký</th>
+              <th class="px-4 py-3 font-semibold text-right">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="px-gutter-lg py-space-md border-t border-surface-container-high flex flex-col sm:flex-row gap-1 sm:gap-0 items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+    <span>Craft Link Admin v1.0 — Giao diện demo, dữ liệu mẫu minh họa</span>
+    <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">schedule</span>Cập nhật lần cuối: 06/10/2026</span>
+  </footer>
+</div>
+
+<!-- ============ MODAL: User detail ============ -->
+<div id="detailModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-space-md">
+  <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="closeDetail()"></div>
+  <div class="relative bg-surface-container-lowest rounded-xl shadow-lg w-full max-w-2xl fade-in max-h-[90vh] overflow-y-auto" id="detailContent"></div>
+</div>
+
+<!-- ============ MODAL: Change role ============ -->
+<div id="roleModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-space-md">
+  <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="closeRoleModal()"></div>
+  <div class="relative bg-surface-container-lowest rounded-xl shadow-lg w-full max-w-md fade-in">
+    <div class="px-gutter py-space-md border-b border-surface-container-high flex items-center justify-between">
+      <h3 class="font-headline-sm text-headline-sm text-primary font-semibold">Thay đổi vai trò</h3>
+      <button class="p-1.5 rounded-lg hover:bg-surface-container-high text-on-surface-variant" type="button" onclick="closeRoleModal()"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="p-gutter space-y-space-md">
+      <p class="font-body-sm text-body-sm text-on-surface-variant" id="roleModalDesc"></p>
+      <div class="grid grid-cols-2 gap-2" id="roleOptions"></div>
+      <label id="roleAckWrap" class="hidden flex items-start gap-2.5 p-3 rounded-lg bg-tertiary-fixed/60 cursor-pointer">
+        <input id="roleAck" type="checkbox" class="mt-0.5 accent-[#9a4526]"/>
+        <span class="font-body-sm text-body-sm text-on-tertiary-fixed-variant">Đây là thao tác <b>phân quyền cấp cao</b>, được ghi vào audit log và yêu cầu xác nhận của 1 Admin khác nếu nâng lên Moderator/Admin.</span>
+      </label>
+      <div class="flex justify-end gap-space-md pt-space-sm border-t border-surface-container-high">
+        <button class="h-10 px-5 rounded-lg bg-surface-container-high text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-colors" type="button" onclick="closeRoleModal()">Hủy</button>
+        <button class="h-10 px-5 rounded-lg bg-secondary text-on-secondary font-label-lg text-label-lg font-semibold hover:bg-on-secondary-container transition-colors" type="button" onclick="confirmRoleChange()">Xác nhận thay đổi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: Ban / Suspend ============ -->
+<div id="banModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-space-md">
+  <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="closeBanModal()"></div>
+  <div class="relative bg-surface-container-lowest rounded-xl shadow-lg w-full max-w-md fade-in">
+    <div class="px-gutter py-space-md border-b border-surface-container-high flex items-center justify-between">
+      <h3 class="font-headline-sm text-headline-sm text-primary font-semibold">Khóa / Đình chỉ tài khoản</h3>
+      <button class="p-1.5 rounded-lg hover:bg-surface-container-high text-on-surface-variant" type="button" onclick="closeBanModal()"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="p-gutter space-y-space-md">
+      <p class="font-body-sm text-body-sm text-on-surface-variant" id="banModalDesc"></p>
+      <div class="grid grid-cols-3 gap-2" id="banDurations"></div>
+      <div class="space-y-1.5">
+        <label class="font-label-lg text-label-lg text-primary font-semibold" for="banReason">Lý do khóa <span class="text-error">*</span></label>
+        <textarea id="banReason" rows="3" class="w-full px-3 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary resize-none" placeholder="Mô tả vi phạm — nội dung này sẽ được đưa vào email thông báo..."></textarea>
+      </div>
+      <label class="flex items-center gap-2.5 font-body-sm text-body-sm text-on-surface cursor-pointer">
+        <input id="banSendEmail" type="checkbox" checked class="accent-[#9a4526]"/>Gửi email thông báo tự động cho người dùng
+      </label>
+      <div class="flex justify-end gap-space-md pt-space-sm border-t border-surface-container-high">
+        <button class="h-10 px-5 rounded-lg bg-surface-container-high text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-colors" type="button" onclick="closeBanModal()">Hủy</button>
+        <button class="h-10 px-5 rounded-lg bg-error text-on-error font-label-lg text-label-lg font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5" type="button" onclick="confirmBan()">
+          <span class="material-symbols-outlined text-[18px]">lock</span>Thực hiện khóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: Force reset password ============ -->
+<div id="resetModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-space-md">
+  <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="closeResetModal()"></div>
+  <div class="relative bg-surface-container-lowest rounded-xl shadow-lg w-full max-w-md fade-in">
+    <div class="p-gutter space-y-space-md">
+      <div class="flex items-start gap-space-md">
+        <div class="w-12 h-12 rounded-xl bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[26px]">password</span></div>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-primary font-semibold">Ép đổi mật khẩu lần đăng nhập tới?</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-1" id="resetModalDesc"></p>
+        </div>
+      </div>
+      <div class="p-3.5 rounded-lg bg-secondary-fixed/50 font-body-sm text-body-sm text-on-secondary-fixed-variant flex gap-2">
+        <span class="material-symbols-outlined text-[18px] shrink-0">info</span>
+        Người dùng sẽ bị chặn tại màn hình đặt mật khẩu mới cho tới khi hoàn tất. Token đặt lại có hiệu lực 24 giờ.
+      </div>
+      <div class="flex justify-end gap-space-md">
+        <button class="h-10 px-5 rounded-lg bg-surface-container-high text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-colors" type="button" onclick="closeResetModal()">Hủy</button>
+        <button class="h-10 px-5 rounded-lg bg-secondary text-on-secondary font-label-lg text-label-lg font-semibold hover:bg-on-secondary-container transition-colors" type="button" onclick="confirmReset()">Gửi yêu cầu đặt lại</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: Create internal account ============ -->
+<div id="createModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-space-md">
+  <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="closeCreateModal()"></div>
+  <div class="relative bg-surface-container-lowest rounded-xl shadow-lg w-full max-w-md fade-in">
+    <div class="px-gutter py-space-md border-b border-surface-container-high flex items-center justify-between">
+      <h3 class="font-headline-sm text-headline-sm text-primary font-semibold">Tạo tài khoản nội bộ</h3>
+      <button class="p-1.5 rounded-lg hover:bg-surface-container-high text-on-surface-variant" type="button" onclick="closeCreateModal()"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form class="p-gutter space-y-space-md" onsubmit="createAccount(event)">
+      <div class="space-y-1.5">
+        <label class="font-label-lg text-label-lg text-primary font-semibold" for="newName">Họ và tên <span class="text-error">*</span></label>
+        <input id="newName" required class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Nguyễn Văn A" type="text"/>
+      </div>
+      <div class="space-y-1.5">
+        <label class="font-label-lg text-label-lg text-primary font-semibold" for="newEmail">Email công vụ <span class="text-error">*</span></label>
+        <input id="newEmail" required type="email" class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary" placeholder="name@craftlink.vn"/>
+      </div>
+      <div class="grid grid-cols-2 gap-space-md">
+        <div class="space-y-1.5">
+          <label class="font-label-lg text-label-lg text-primary font-semibold" for="newRole">Vai trò <span class="text-error">*</span></label>
+          <select id="newRole" class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+            <option value="moderator">Kiểm duyệt viên</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="space-y-1.5">
+          <label class="font-label-lg text-label-lg text-primary font-semibold" for="newDept">Bộ phận</label>
+          <select id="newDept" class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+            <option>Vận hành sàn</option>
+            <option>Kiểm duyệt nội dung</option>
+            <option>Hỗ trợ khách hàng</option>
+            <option>Kỹ thuật</option>
+          </select>
+        </div>
+      </div>
+      <p class="font-body-sm text-body-sm text-on-surface-variant flex gap-2"><span class="material-symbols-outlined text-[18px] shrink-0 text-secondary">mail</span>Email kích hoạt + link đặt mật khẩu ban đầu sẽ được gửi tự động tới địa chỉ trên.</p>
+      <div class="flex justify-end gap-space-md pt-space-sm border-t border-surface-container-high">
+        <button class="h-10 px-5 rounded-lg bg-surface-container-high text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-colors" type="button" onclick="closeCreateModal()">Hủy</button>
+        <button class="h-10 px-5 rounded-lg bg-secondary text-on-secondary font-label-lg text-label-lg font-semibold hover:bg-on-secondary-container transition-colors flex items-center gap-1.5" type="submit">
+          <span class="material-symbols-outlined text-[18px]">person_add</span>Tạo tài khoản
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 right-6 z-[60] hidden">
+  <div class="bg-inverse-surface text-inverse-on-surface rounded-xl shadow-lg px-5 py-3.5 flex items-center gap-3 fade-in">
+    <span class="material-symbols-outlined text-tertiary-fixed" id="toastIcon">check_circle</span>
+    <span class="font-body-md text-body-md" id="toastMsg"></span>
+  </div>
+</div>
+
+<script src="../js/pages/data.js"></script>
+<script src="../js/pages/utils.js"></script>
+<script src="../js/common/sidebar.js"></script>
+<script src="../js/common/header.js"></script>
+<script src="../js/common/modal.js"></script>
+<script src="../js/common/notification.js"></script>
+<script src="../js/pages/users.js"></script>
+</body>
+</html>

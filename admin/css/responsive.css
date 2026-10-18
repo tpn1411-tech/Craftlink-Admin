@@ -1,0 +1,4 @@
+/* Điều chỉnh màn hình nhỏ */
+@media (max-width:400px){
+  #notifPanel{left:0;right:0;width:auto}
+}

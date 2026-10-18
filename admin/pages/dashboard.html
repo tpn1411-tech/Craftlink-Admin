@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<title>Bảng điều khiển Nền tảng | Craft Link Admin</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="../../assets/css/tailwind.css" rel="stylesheet"/>
+<link href="../../assets/css/colors.css" rel="stylesheet"/>
+<link href="../../assets/css/base.css" rel="stylesheet"/>
+<link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg"/>
+<link href="../css/reset.css" rel="stylesheet"/>
+<link href="../css/variables.css" rel="stylesheet"/>
+<link href="../css/layout.css" rel="stylesheet"/>
+<link href="../css/components.css" rel="stylesheet"/>
+<link href="../css/dashboard.css" rel="stylesheet"/>
+<link href="../css/responsive.css" rel="stylesheet"/>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased">
+
+<!-- ============ MAIN ============ -->
+<div class="min-h-screen flex flex-col">
+  <header class="sticky top-0 z-30 bg-surface/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+  <div class="h-20 px-gutter-lg border-b border-surface-container-high flex items-center justify-between gap-space-lg">
+    <a href="../index.html" class="flex items-center gap-space-md shrink-0">
+      <img alt="Craft Link Heritage Logo" class="h-10 w-auto object-contain" src="../assets/images/logo.jpg"/>
+      <div class="flex flex-col">
+        <span class="font-headline-sm text-headline-sm text-primary font-semibold tracking-wide">CRAFT LINK</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Bảng quản trị</span>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-gutter shrink-0" aria-label="Điều hướng quản trị">
+      <a href="dashboard.html" class="flex items-center gap-1.5 font-headline-sm text-headline-sm py-space-sm transition-colors text-secondary font-semibold border-b-2 border-secondary" aria-current="page">
+        <span class="material-symbols-outlined text-[20px]">dashboard</span>Tổng quan
+      </a>
+      <a href="content.html" class="flex items-center gap-1.5 font-headline-sm text-headline-sm py-space-sm transition-colors text-on-surface-variant hover:text-on-surface border-b-2 border-transparent">
+        <span class="material-symbols-outlined text-[20px]">category</span>Danh mục
+      </a>
+      <a href="users.html" class="flex items-center gap-1.5 font-headline-sm text-headline-sm py-space-sm transition-colors text-on-surface-variant hover:text-on-surface border-b-2 border-transparent">
+        <span class="material-symbols-outlined text-[20px]">group</span>Tài khoản
+      </a>
+      <a href="moderation.html" class="flex items-center gap-1.5 font-headline-sm text-headline-sm py-space-sm transition-colors text-on-surface-variant hover:text-on-surface border-b-2 border-transparent">
+        <span class="material-symbols-outlined text-[20px]">gavel</span>Kiểm duyệt
+      </a>
+    </nav>
+    <div class="flex items-center gap-space-sm shrink-0">
+      <a href="../../index.html" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Về trang chủ"><span class="material-symbols-outlined text-[22px]">storefront</span></a>
+      <a href="../../pages/product.html" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Xem Marketplace"><span class="material-symbols-outlined text-[22px]">shopping_bag</span></a>
+      <div class="relative">
+                <button type="button" onclick="toggleNotif(event)" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" aria-label="Thông báo">
+                  <span class="material-symbols-outlined text-[22px]">notifications</span>
+                  <span id="notifBadge" class="absolute top-1 right-1 w-4 h-4 rounded-full bg-secondary text-on-secondary font-label-sm text-[10px] flex items-center justify-center leading-none font-bold">3</span>
+                </button>
+                <div id="notifPanel" class="hidden absolute right-0 mt-2 w-80 bg-surface-container-lowest rounded-xl shadow-lg border border-surface-container-high overflow-hidden fade-in">
+                  <div class="px-4 py-3 border-b border-surface-container-high flex items-center justify-between gap-2">
+                    <span class="font-title-md text-title-md text-primary font-semibold">Thông báo hệ thống</span>
+                    <button type="button" onclick="markAllRead()" class="font-label-sm text-label-sm text-secondary font-semibold hover:underline shrink-0">Đánh dấu đã đọc</button>
+                  </div>
+                  <div id="notifList" class="max-h-80 overflow-y-auto"></div>
+                </div>
+              </div>
+      <div class="flex items-center gap-2 pl-space-sm ml-1 border-l border-surface-container-high">
+        <div class="w-9 h-9 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-title-lg text-title-lg">N</div>
+        <div class="hidden xl:flex flex-col leading-tight">
+          <span class="font-title-md text-title-md text-primary">Admin Nam</span>
+          <span class="font-label-sm text-label-sm text-on-surface-variant">Super Admin</span>
+        </div>
+        <button type="button" onclick="logoutDemo()" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Đăng xuất"><span class="material-symbols-outlined text-[20px]">logout</span></button>
+      </div>
+    </div>
+  </div>
+
+    <div class="px-gutter-lg pt-3 flex items-center justify-between gap-space-lg">
+      <nav class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant min-w-0" aria-label="Breadcrumb">
+        <a href="dashboard.html" class="hover:text-primary transition-colors shrink-0">Bảng quản trị</a>
+        <span class="material-symbols-outlined text-[14px] shrink-0">chevron_right</span>
+        <span class="text-primary font-semibold truncate">Tổng quan nền tảng</span>
+      </nav>
+      <div class="flex items-center gap-space-sm shrink-0">
+        <span id="maintenanceBadge" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+          <span class="material-symbols-outlined text-[16px]">construction</span>Đang bảo trì
+        </span>
+        <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
+          <span class="w-2 h-2 rounded-full bg-[#3B6E4C] dot-live"></span>Hệ thống hoạt động
+        </span>
+      </div>
+    </div>
+    <div class="px-gutter-lg pt-1 pb-3 flex items-center justify-between gap-space-lg">
+      <div class="flex items-center gap-space-md min-w-0">
+        <span class="material-symbols-outlined text-[24px] text-secondary">dashboard</span>
+        <div class="min-w-0">
+          <h1 class="font-headline-md text-headline-md text-primary truncate">Bảng điều khiển Nền tảng</h1>
+          <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Giám sát vận hành, giao dịch & hiệu năng của sàn — cập nhật theo thời gian thực</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-md shrink-0">
+        <button class="h-10 px-4 rounded-lg bg-surface-container-high text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-colors flex items-center gap-1.5" type="button" onclick="exportCSV()">
+          <span class="material-symbols-outlined text-[18px]">download</span>Xuất báo cáo
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 w-full px-gutter-lg py-gutter max-w-[1400px] mx-auto space-y-gutter">
+
+    <!-- KPI cards -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-gutter" id="kpiCards"></section>
+
+    <!-- Charts + Activity log -->
+    <section class="grid grid-cols-1 xl:grid-cols-3 gap-gutter">
+      <div class="xl:col-span-2 bg-surface-container-lowest rounded-xl shadow-xs p-gutter space-y-space-md">
+        <div class="flex items-center justify-between flex-wrap gap-space-sm">
+          <div>
+            <h2 class="font-title-lg text-title-lg text-primary font-semibold">Doanh thu nền tảng</h2>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">12 tháng gần nhất · bao gồm phí hoa hồng & dịch vụ</p>
+          </div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+            <span class="material-symbols-outlined text-[16px]">trending_up</span>+18,4% so với năm trước
+          </span>
+        </div>
+        <div id="revenueChart"></div>
+      </div>
+      <div class="bg-surface-container-lowest rounded-xl shadow-xs p-gutter flex flex-col">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="font-title-lg text-title-lg text-primary font-semibold">Nhật ký hệ thống</h2>
+            <p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#3B6E4C] dot-live"></span>Trực tiếp</p>
+          </div>
+          <span class="material-symbols-outlined text-outline">radio_button_checked</span>
+        </div>
+        <ul id="activityLog" class="mt-space-md space-y-3 overflow-y-auto max-h-[340px] pr-1 flex-1"></ul>
+      </div>
+    </section>
+
+    <!-- Category bar chart + AI insights -->
+    <section class="grid grid-cols-1 xl:grid-cols-3 gap-gutter">
+      <div class="xl:col-span-1 bg-surface-container-lowest rounded-xl shadow-xs p-gutter space-y-space-md">
+        <div>
+          <h2 class="font-title-lg text-title-lg text-primary font-semibold">Đơn hàng theo danh mục</h2>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Tháng 10/2026</p>
+        </div>
+        <div id="categoryChart" class="space-y-space-md"></div>
+      </div>
+      <div class="xl:col-span-2 bg-primary-container text-on-primary rounded-xl shadow-xs p-gutter relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-secondary/20 blur-2xl"></div>
+        <div class="flex items-center gap-2 mb-space-md">
+          <span class="material-symbols-outlined text-tertiary-fixed text-[24px]" style="font-variation-settings:'FILL' 1">smart_button</span>
+          <h2 class="font-headline-sm text-headline-sm text-surface-container-lowest font-semibold">AI Insights dành cho quản trị</h2>
+          <span class="ml-auto px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm">Cập nhật 09:41</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md" id="aiInsights"></div>
+      </div>
+    </section>
+
+    <!-- Disputed briefs + Admin override -->
+    <section class="bg-surface-container-lowest rounded-xl shadow-xs overflow-hidden">
+      <div class="px-gutter py-space-md border-b border-surface-container-high flex items-center justify-between flex-wrap gap-space-sm">
+        <div>
+          <h2 class="font-title-lg text-title-lg text-primary font-semibold">Briefs / Proposals đang tranh chấp</h2>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Vượt thẩm quyền Moderator — chờ quyết định ghi đề của Admin</p>
+        </div>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+          <span class="material-symbols-outlined text-[16px]">gavel</span><span id="disputeCount">0</span> ca nóng
+        </span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left min-w-[900px]">
+          <thead>
+            <tr class="bg-surface-container-low font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">
+              <th class="px-gutter py-3 font-semibold">Brief / Đơn tùy biến</th>
+              <th class="px-4 py-3 font-semibold">Khách hàng</th>
+              <th class="px-4 py-3 font-semibold">Maker</th>
+              <th class="px-4 py-3 font-semibold">Giá trị</th>
+              <th class="px-4 py-3 font-semibold">Tình trạng tranh chấp</th>
+              <th class="px-4 py-3 font-semibold text-right">Admin Override</th>
+            </tr>
+          </thead>
+          <tbody id="disputeTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- System settings -->
+    <section class="bg-surface-container-lowest rounded-xl shadow-xs p-gutter">
+      <div class="flex items-center justify-between flex-wrap gap-space-sm mb-gutter">
+        <div>
+          <h2 class="font-title-lg text-title-lg text-primary font-semibold">Cấu hình tham số hệ thống</h2>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Thay đổi áp dụng toàn sàn ngay lập tức — được ghi vào audit log</p>
+        </div>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">
+          <span class="material-symbols-outlined text-[16px]">tune</span>System Settings
+        </span>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+        <div class="p-gutter rounded-xl bg-surface-container-low space-y-space-sm">
+          <div class="flex items-center justify-between">
+            <span class="font-title-md text-title-md text-primary font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-[20px] text-secondary">percent</span>Phí hoa hồng nền tảng</span>
+            <span class="font-headline-sm text-headline-sm text-secondary font-semibold" id="commissionLabel">7,5%</span>
+          </div>
+          <input id="commissionRange" type="range" min="0" max="20" step="0.5" value="7.5" class="w-full accent-[#9a4526]" oninput="onCommissionChange(this.value)"/>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Phần trăm khấu trừ trên mỗi giao dịch hoàn tất. Hiện tại: 7,5%.</p>
+        </div>
+        <div class="p-gutter rounded-xl bg-surface-container-low space-y-space-sm">
+          <div class="flex items-center justify-between">
+            <span class="font-title-md text-title-md text-primary font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-[20px] text-secondary">note_add</span>Giới hạn brief / ngày</span>
+            <span class="font-headline-sm text-headline-sm text-secondary font-semibold" id="briefLimitLabel">5 brief</span>
+          </div>
+          <input id="briefLimitRange" type="range" min="1" max="20" step="1" value="5" class="w-full accent-[#9a4526]" oninput="onBriefLimitChange(this.value)"/>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Số brief tùy biến tối đa mỗi khách hàng được tạo mỗi ngày.</p>
+        </div>
+        <div class="p-gutter rounded-xl bg-surface-container-low space-y-space-sm">
+          <div class="flex items-center justify-between">
+            <span class="font-title-md text-title-md text-primary font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-[20px] text-secondary">construction</span>Chế độ bảo trì toàn sàn</span>
+            <button id="maintenanceSwitch" class="switch" type="button" onclick="toggleMaintenance()" aria-label="Bật/tắt bảo trì"></button>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Khi bật, người dùng chỉ xem được trang thông báo bảo trì; Admin & Moderator vẫn truy cập bình thường.</p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-end gap-space-md mt-gutter pt-gutter border-t border-surface-container-high">
+        <button class="h-10 px-5 rounded-lg bg-surface-container-high text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-colors" type="button" onclick="resetSettings()">Khôi phục mặc định</button>
+        <button class="h-10 px-5 rounded-lg bg-secondary text-on-secondary font-label-lg text-label-lg font-semibold hover:bg-on-secondary-container transition-colors flex items-center gap-1.5" type="button" onclick="saveSettings()">
+          <span class="material-symbols-outlined text-[18px]">save</span>Lưu cấu hình
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="px-gutter-lg py-space-md border-t border-surface-container-high flex flex-col sm:flex-row gap-1 sm:gap-0 items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+    <span>Craft Link Admin v1.0 — Giao diện demo, dữ liệu mẫu minh họa</span>
+    <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">schedule</span>Cập nhật lần cuối: 06/10/2026</span>
+  </footer>
+</div>
+
+<!-- ============ MODAL: Admin override confirm ============ -->
+<div id="overrideModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-space-md">
+  <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="closeOverrideModal()"></div>
+  <div class="relative bg-surface-container-lowest rounded-xl shadow-lg w-full max-w-md fade-in">
+    <div class="p-gutter space-y-space-md">
+      <div class="flex items-start gap-space-md">
+        <div class="w-12 h-12 rounded-xl bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[26px]">gavel</span></div>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-primary font-semibold" id="overrideTitle">Ghi đề trạng thái nghiệp vụ?</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-1" id="overrideDesc"></p>
+        </div>
+      </div>
+      <label class="flex items-start gap-2.5 p-3 rounded-lg bg-tertiary-fixed/60 cursor-pointer">
+        <input id="overrideAck" type="checkbox" class="mt-0.5 accent-[#9a4526]"/>
+        <span class="font-body-sm text-body-sm text-on-tertiary-fixed-variant">Tôi chịu trách nhiệm về quyết định ghi đề này. Hành động được ghi vào <b>audit log cấp cao</b> và không thể hoàn tác.</span>
+      </label>
+      <div class="flex justify-end gap-space-md">
+        <button class="h-10 px-5 rounded-lg bg-surface-container-high text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-colors" type="button" onclick="closeOverrideModal()">Hủy</button>
+        <button id="overrideConfirmBtn" class="h-10 px-5 rounded-lg bg-error text-on-error font-label-lg text-label-lg font-semibold hover:opacity-90 transition-opacity" type="button" onclick="confirmOverride()">Xác nhận ghi đề</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 right-6 z-[60] hidden">
+  <div class="bg-inverse-surface text-inverse-on-surface rounded-xl shadow-lg px-5 py-3.5 flex items-center gap-3 fade-in">
+    <span class="material-symbols-outlined text-tertiary-fixed" id="toastIcon">check_circle</span>
+    <span class="font-body-md text-body-md" id="toastMsg"></span>
+  </div>
+</div>
+
+<script src="../js/pages/data.js"></script>
+<script src="../js/pages/utils.js"></script>
+<script src="../js/common/sidebar.js"></script>
+<script src="../js/common/header.js"></script>
+<script src="../js/common/modal.js"></script>
+<script src="../js/common/notification.js"></script>
+<script src="../js/pages/dashboard.js"></script>
+</body>
+</html>
